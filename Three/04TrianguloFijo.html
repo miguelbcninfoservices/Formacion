@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>three.js webgl - geometry</title>
+    <meta charset="utf-8">
+    <style>
+    body {
+        background-color: #ffffff;
+        margin: 0;
+        overflow: hidden;
+    }
+    </style>
+    <script src="../frameworks/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js" integrity="sha512-yNJzAsg5JyP91u+sLHlUDULMBd3hmEiVkYeeN1cQBKaLZ7EyT6oH2u5THNIRM2Fu6VKcZJv+F/QAp1h/qzy9Ow==" crossorigin="anonymous"></script>
+    <script>
+    var camera, scene, renderer;
+    var geometry, material, mesh;
+    var clock;
+
+        function init() {
+            renderer = new THREE.WebGLRenderer();
+            renderer.setClearColor(0xffffff,1);
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 100 );
+            camera.position.z = 3;
+
+            scene = new THREE.Scene();
+
+            var geometry = new THREE.Geometry();
+
+            geometry.vertices.push(
+                new THREE.Vector3( -1,  1, 0 ),
+                new THREE.Vector3( -1, -1, 0 ),
+                new THREE.Vector3(  1, -1, 0 )
+            );
+            geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+            
+            material = new THREE.MeshBasicMaterial({color: 0x000000});
+
+            mesh = new THREE.Mesh( geometry, material );
+            scene.add( mesh );
+            addVertices(mesh);
+            
+            clock = new THREE.Clock();
+            window.addEventListener( 'resize', onWindowResize, false );
+
+        }
+
+        function animate() {
+            requestAnimationFrame( animate );
+            renderer.render( scene, camera );
+        }
+        
+        function onWindowResize() {
+
+                windowHalfX = window.innerWidth / 2;
+                windowHalfY = window.innerHeight / 2;
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize( window.innerWidth, window.innerHeight );
+
+        }
+
+        function addVertices(mesh) {
+            var vertices = mesh.geometry.vertices;
+            var vertexMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+
+            vertices.forEach(function (vertex) {
+                var vertexSphere = new THREE.SphereGeometry(0.05);
+                var vertexMesh = new THREE.Mesh(vertexSphere, vertexMaterial);
+                vertexMesh.position.copy(vertex);
+                scene.add(vertexMesh);
+            });
+        }
+        
+        window.addEventListener("DOMContentLoaded", function(event) {
+            init();
+            animate();
+        });
+        
+  </script>
+</head>
+<body>
+</body>
+</html>

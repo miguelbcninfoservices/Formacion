@@ -1,0 +1,17 @@
+{
+  "name": "miguel-app",
+  "version": "1.0.0",
+  "description": "aplicacion de aprendizaje de node",
+  "main": "index.js",
+  "scripts": {
+    "start" : "nodemon index.js"
+  },
+  "author": "Miguel Torrijo",
+  "license": "ISC",
+  "dependencies": {
+    "slugify": "^1.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
